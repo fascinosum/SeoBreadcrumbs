@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <ML_SeoBreadcrumbs>
+            <version>0.1.0</version>
+        </ML_SeoBreadcrumbs>
+    </modules>
+    <global>
+        <models>
+            <ml_seobreadcrumbs>
+                <class>ML_SeoBreadcrumbs_Model</class>
+                <resourceModel>ml_seobreadcrumbs_resource</resourceModel>
+            </ml_seobreadcrumbs>
+            <ml_seobreadcrumbs_resource>
+                <class>ML_SeoBreadcrumbs_Model_Resource</class>
+            </ml_seobreadcrumbs_resource>
+        </models>
+        <helpers>
+            <ml_seobreadcrumbs>
+                <class>ML_SeoBreadcrumbs_Helper</class>
+            </ml_seobreadcrumbs>
+        </helpers>
+    </global>
+    <frontend>
+        <events>
+            <controller_action_predispatch_catalog_product_view>
+                <observers>
+                    <ml_seobreadcrumbs>
+                        <type>singleton</type>
+                        <class>ML_SeoBreadcrumbs_Model_Observer</class>
+                        <method>checkBreadcrumbs</method>
+                    </ml_seobreadcrumbs>
+                </observers>
+            </controller_action_predispatch_catalog_product_view>
+        </events>
+    </frontend>
+</config>
