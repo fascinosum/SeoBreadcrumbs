@@ -16,8 +16,16 @@ class ML_SeoBreadcrumbs_Model_Observer
         if (!$categoryId && $productId) {
             $product = Mage::getModel('catalog/product')
                 ->setId($productId);
-            $categoryId = reset($product->getCategoryIds());
-            $category = Mage::getModel('catalog/category')->load($categoryId);
+
+            $categoryCollection = Mage::getModel('catalog/category')->getCollection()
+                ->addFieldToFilter('entity_id', array('in' => $product->getCategoryIds()))
+                ->addFieldToFilter('level', array('gt' => 1))
+                ->setStoreId(Mage::app()->getStore()->getId());
+            $categoryCollection->getSelect()
+                ->order('level ASC');
+
+            $category = $categoryCollection->getFirstItem();
+
             if ($category->getId()) {
                 $request->setParam('category', $category->getId());
             }
